@@ -28,8 +28,8 @@ const data = await res.json();
 
 console.log("Response:", data);
 
-if (data.success) {
 
+if (data.token) {
   // 🔐 Save token
   localStorage.setItem("token", data.token);
 
