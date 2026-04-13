@@ -3,10 +3,14 @@
     {
       "src": "online attendance system/attendance/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "config": {
+        "buildCommand": "cd \"online attendance system/attendance\" && npm run build",
+        "distDir": "build"
+      }
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
