@@ -1,0 +1,291 @@
+/* ================= GLOBAL ================= */
+
+body{
+  font-family: 'Inter', Arial, sans-serif;
+  margin:0;
+  background:#0f172a;
+  color:#e5e7eb;
+  transition:0.3s;
+}
+
+/* 🌗 LIGHT MODE */
+body.light-mode{
+  background:#f4f6f9;
+  color:#111;
+}
+
+/* ================= LOGIN ================= */
+
+.login-container{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#1e293b,#334155);
+}
+
+.login-container h1{
+  color:white;
+  margin-bottom:30px;
+}
+
+.login-container form{
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  padding:40px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  width:350px;
+  display:flex;
+  flex-direction:column;
+}
+
+.login-container input{
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:transparent;
+  color:white;
+}
+
+.login-container button{
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:white;
+  cursor:pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  width:240px;
+  background:#020617;
+  color:#cbd5f5;
+  min-height:100vh;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar a{
+  color:#cbd5f5;
+  text-decoration:none;
+  margin:8px 0;
+  padding:10px;
+  border-radius:8px;
+  transition:0.3s;
+}
+
+.sidebar a:hover{
+  background:#1e293b;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-box{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.avatar{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  color:white;
+  margin:0 auto 10px;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard-container{
+  display:flex;
+  min-height:100vh;
+}
+
+.dashboard-content{
+  flex:1;
+  padding:40px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+/* Cards */
+
+.cards{
+  display:flex;
+  gap:25px;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+
+.card{
+  flex:1;
+  min-width:220px;
+  padding:25px;
+  border-radius:18px;
+  text-align:center;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
+
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
+.card.total{
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+}
+
+.card.present{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+}
+
+.card.absent{
+  background:linear-gradient(135deg,#f97316,#ea580c);
+}
+
+.card p{
+  font-size:30px;
+  font-weight:bold;
+  color:white;
+}
+
+/* ================= ATTENDANCE ================= */
+
+.attendance-page{
+  padding:40px;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+.attendance-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+/* Responsive grid */
+
+.attendance-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+
+.student-card{
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:0.3s;
+}
+
+.student-card:hover{
+  transform:translateY(-5px);
+}
+
+.student-info{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+/* Buttons */
+
+.attendance-options{
+  display:flex;
+  gap:10px;
+}
+
+.attendance-options button{
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#334155;
+  color:white;
+  transition:0.3s;
+}
+
+/* Active buttons */
+
+.active-btn{
+  background:#22c55e !important;
+}
+
+.absent-btn.active-btn{
+  background:#ef4444 !important;
+}
+
+/* Submit Button */
+
+.submit-btn{
+  display:block;
+  margin:40px auto;
+  padding:12px 25px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.submit-btn:hover{
+  transform:scale(1.05);
+}
+
+/* ================= CHART CONTAINER ================= */
+
+.chart-box{
+  background:rgba(255,255,255,0.08);
+  padding:20px;
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+}
+
+/* ================= LOGOUT ================= */
+
+.logout-btn{
+  margin-top:auto;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#ef4444;
+  color:white;
+}
+
+/* ================= LIGHT MODE ================= */
+
+body.light-mode .dashboard-content{
+  background:#f4f6f9;
+}
+
+body.light-mode .card{
+  background:white;
+  color:black;
+}
+
+body.light-mode .sidebar{
+  background:white;
+  color:black;
+}
+
+body.light-mode .student-card{
+  background:white;
+}
