@@ -8,46 +8,41 @@ const [present,setPresent] = useState(0);
 const [absent,setAbsent] = useState(0);
 
 const fetchData = async () => {
+  try {
+    const token = localStorage.getItem("token");
 
-try{
+    const res = await fetch("https://attendance-system-5w0n.onrender.com/api/attendance", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-const token = localStorage.getItem("token");
+    const data = await res.json();
 
-const res = await fetch("https://attendance-system-5w0n.onrender.com/api/attendance", {
-  headers:{
-    Authorization:`Bearer ${token}`
+    console.log("API DATA:", data);
+
+    if (Array.isArray(data) && data.length > 0) {
+
+      let p = 0, a = 0;
+
+      // ✅ FIXED: loop directly on data
+      data.forEach(s => {
+        if (s.status === "Present") p++;
+        else a++;
+      });
+
+      setPresent(p);
+      setAbsent(a);
+
+    } else {
+      setPresent(0);
+      setAbsent(0);
+    }
+
+  } catch (err) {
+    console.log("Error:", err);
   }
-});
-
-const data = await res.json();
-
-console.log("API DATA:", data);
-
-if(Array.isArray(data) && data.length > 0){
-
-  const latest = data[data.length-1];
-
-  let p=0,a=0;
-
-  latest.records.forEach(s=>{
-    if(s.status==="Present") p++;
-    else a++;
-  });
-
-  setPresent(p);
-  setAbsent(a);
-
-}else{
-  setPresent(0);
-  setAbsent(0);
-}
-
-}catch(err){
-console.log("Error:", err);
-}
-
 };
-
 useEffect(()=>{
 
 fetchData();
