@@ -9,28 +9,12 @@ const students=[
 { enroll:"BCA002", name:"Amit Patel" },
 { enroll:"BCA003", name:"Priya Shah" },
 { enroll:"BCA004", name:"Neha Gupta" },
-{ enroll:"BCA005", name:"Rohan Verma" },
-{ enroll:"BCA006", name:"Anjali Mehta" },
-{ enroll:"BCA007", name:"Karan Singh" },
-{ enroll:"BCA008", name:"Sneha Joshi" },
-{ enroll:"BCA009", name:"Vikram Desai" },
-{ enroll:"BCA010", name:"Pooja Nair" },
-{ enroll:"BCA011", name:"Arjun Kapoor" },
-{ enroll:"BCA012", name:"Meera Iyer" },
-{ enroll:"BCA013", name:"Sanjay Kumar" },
-{ enroll:"BCA014", name:"Aisha Khan" },
-{ enroll:"BCA015", name:"Dev Patel" },
-{ enroll:"BCA016", name:"Ritika Sharma" },
-{ enroll:"BCA017", name:"Aditya Mishra" },
-{ enroll:"BCA018", name:"Nisha Yadav" },
-{ enroll:"BCA019", name:"Varun Jain" },
-{ enroll:"BCA020", name:"Kavita Reddy" }
+{ enroll:"BCA005", name:"Rohan Verma" }
 ];
 
 const [attendance,setAttendance] = useState({});
 const [loading,setLoading] = useState(false);
 
-// handle selection
 const handleChange = (enroll,status)=>{
   setAttendance(prev => ({
     ...prev,
@@ -38,7 +22,6 @@ const handleChange = (enroll,status)=>{
   }));
 };
 
-// submit attendance
 const submitAttendance = async ()=>{
 
 const token = localStorage.getItem("token");
@@ -51,13 +34,11 @@ const records = students.map(student => ({
   status: attendance[student.enroll] || "Absent"
 }));
 
-console.log("SENDING:", {records,date});
-
 try{
 
 setLoading(true);
 
-const res = await fetch("http://localhost:5000/api/attendance/save", {
+const res = await fetch("https://attendance-backend.onrender.com/api/attendance/save", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -68,38 +49,30 @@ const res = await fetch("http://localhost:5000/api/attendance/save", {
 
 const data = await res.json();
 
-console.log("RESPONSE:", data);
-
 if(res.ok){
   alert("Attendance Submitted ✅");
   setAttendance({});
 }else{
-  alert(data.message || "Error ❌");
+  alert(data.message);
 }
 
 }catch(err){
 console.log(err);
-alert("Server error ❌");
+alert("Error ❌");
 }
 
 setLoading(false);
-
 };
 
 return(
-
 <div className="dashboard-container">
-
 <Sidebar/>
-
 <div className="dashboard-content">
 
 <h1>Mark Attendance</h1>
 
 <div className="attendance-grid">
-
 {students.map((student,index)=>(
-
 <div key={index} className="student-card">
 
 <div className="student-info">
@@ -132,19 +105,15 @@ Absent
 </div>
 
 </div>
-
 ))}
-
 </div>
 
-<button className="submit-btn" onClick={submitAttendance} disabled={loading}>
-{loading ? "Submitting..." : "Submit Attendance"}
+<button onClick={submitAttendance} disabled={loading}>
+{loading ? "Submitting..." : "Submit"}
 </button>
 
 </div>
-
 </div>
-
 );
 }
 
