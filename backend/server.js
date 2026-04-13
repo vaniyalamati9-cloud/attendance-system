@@ -9,56 +9,77 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// DB connect
+// ✅ Connect DB
 connectDB();
 
-// server
+// ✅ Create server
 const server = http.createServer(app);
 
-// socket
+// ✅ Socket.IO
 const io = new Server(server, {
-  cors: { origin: "*" }
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
 });
 
 app.set("io", io);
 
-// middleware
-app.use(cors());
+// ✅ Middleware
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(express.json());
 
-// routes
+// ✅ Routes
 const authRoutes = require("./routes/authRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 
-// test
+// ✅ Test route
 app.get("/", (req, res) => {
   res.send("Backend Running 🚀");
 });
 
-// socket
+// ✅ Create Admin (SAFE version)
+app.get("/create-admin", async (req, res) => {
+  try {
+    const bcrypt = require("bcrypt");
+    const User = require("./models/User");
+
+    const existing = await User.findOne({ username: "admin" });
+
+    if (existing) {
+      return res.send("Admin already exists ✅");
+    }
+
+    const hashedPassword = await bcrypt.hash("admin123", 10);
+
+    await User.create({
+      username: "admin",
+      password: hashedPassword,
+      role: "admin"
+    });
+
+    res.send("Admin created ✅");
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error creating admin ❌");
+  }
+});
+
+// ✅ Socket connection
 io.on("connection", (socket) => {
   console.log("User connected");
 });
 
-// start
-server.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
-});
+// ✅ Start server (IMPORTANT FIX)
+const PORT = process.env.PORT || 5000;
 
-app.get("/create-admin", async (req, res) => {
-  const bcrypt = require("bcrypt");
-  const User = require("./models/User");
-
-  const hashedPassword = await bcrypt.hash("admin123", 10);
-
-  await User.create({
-    username: "admin",
-    password: hashedPassword,
-    role: "admin"
-  });
-
-  res.send("Admin created ✅");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
