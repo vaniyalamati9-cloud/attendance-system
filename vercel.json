@@ -4,7 +4,6 @@
       "src": "online attendance system/attendance/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "buildCommand": "cd \"online attendance system/attendance\" && npm run build",
         "distDir": "build"
       }
     }
