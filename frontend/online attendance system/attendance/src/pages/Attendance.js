@@ -15,6 +15,7 @@ const students=[
 const [attendance,setAttendance] = useState({});
 const [loading,setLoading] = useState(false);
 
+// handle selection
 const handleChange = (enroll,status)=>{
   setAttendance(prev => ({
     ...prev,
@@ -22,6 +23,7 @@ const handleChange = (enroll,status)=>{
   }));
 };
 
+// submit attendance
 const submitAttendance = async ()=>{
 
 const token = localStorage.getItem("token");
@@ -34,11 +36,13 @@ const records = students.map(student => ({
   status: attendance[student.enroll] || "Absent"
 }));
 
+console.log("SENDING:", {records,date});
+
 try{
 
 setLoading(true);
 
-const res = await fetch("https://attendance-backend.onrender.com/api/attendance/save", {
+const res = await fetch("https://attendance-system-5w0n.onrender.com/api/attendance/save", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -49,30 +53,38 @@ const res = await fetch("https://attendance-backend.onrender.com/api/attendance/
 
 const data = await res.json();
 
+console.log("RESPONSE:", data);
+
 if(res.ok){
   alert("Attendance Submitted ✅");
   setAttendance({});
 }else{
-  alert(data.message);
+  alert(data.message || "Error ❌");
 }
 
 }catch(err){
 console.log(err);
-alert("Error ❌");
+alert("Server error ❌");
 }
 
 setLoading(false);
+
 };
 
 return(
+
 <div className="dashboard-container">
+
 <Sidebar/>
+
 <div className="dashboard-content">
 
 <h1>Mark Attendance</h1>
 
 <div className="attendance-grid">
+
 {students.map((student,index)=>(
+
 <div key={index} className="student-card">
 
 <div className="student-info">
@@ -105,16 +117,21 @@ Absent
 </div>
 
 </div>
+
 ))}
+
 </div>
 
-<button onClick={submitAttendance} disabled={loading}>
-{loading ? "Submitting..." : "Submit"}
+<button className="submit-btn" onClick={submitAttendance} disabled={loading}>
+{loading ? "Submitting..." : "Submit Attendance"}
 </button>
 
 </div>
+
 </div>
+
 );
+
 }
 
 export default Attendance;
