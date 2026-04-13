@@ -9,34 +9,36 @@ const [loading, setLoading] = useState(false);
 
 const navigate = useNavigate();
 
-const handleLogin = (e) => {
+const handleLogin = async (e) => {
 e.preventDefault();
 
 setLoading(true);
 
-fetch("http://localhost:5000/api/auth/login", {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({ username, password })
-})
-.then(res => res.json())
-.then(data => {
+try{
 
-console.log("Response:", data); // 🔍 DEBUG
+const res = await fetch("https://attendance-system-5w0n.onrender.com/api/auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ username, password })
+});
+
+const data = await res.json();
+
+console.log("Response:", data);
 
 if (data.success) {
 
-  // 🔐 Save token (optional)
-  localStorage.setItem("token", data.token || "");
+  // 🔐 Save token
+  localStorage.setItem("token", data.token);
 
-  // 🔥 SAVE ROLE (MOST IMPORTANT)
+  // 👥 Save role
   localStorage.setItem("role", data.role);
 
-  alert("Login Successful");
+  alert("Login Successful ✅");
 
-  // 🔥 Redirect based on role
+  // 🔄 Redirect
   if(data.role === "admin"){
     navigate("/dashboard");
   } else {
@@ -44,17 +46,16 @@ if (data.success) {
   }
 
 } else {
-  alert("Invalid username or password");
+  alert("Invalid username or password ❌");
+}
+
+}catch(err){
+console.log("Error:", err);
+alert("Server not responding ❌");
 }
 
 setLoading(false);
 
-})
-.catch(err => {
-console.log("Error:", err);
-alert("Server not responding");
-setLoading(false);
-});
 };
 
 return(
@@ -88,7 +89,6 @@ required
 
 </div>
 );
-
 }
 
 export default Login;

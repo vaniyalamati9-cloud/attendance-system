@@ -9,9 +9,11 @@ const [absent,setAbsent] = useState(0);
 
 const fetchData = async () => {
 
+try{
+
 const token = localStorage.getItem("token");
 
-const res = await fetch("https://attendance-backend.onrender.com/api/attendance", {
+const res = await fetch("https://attendance-system-5w0n.onrender.com/api/attendance", {
   headers:{
     Authorization:`Bearer ${token}`
   }
@@ -19,7 +21,10 @@ const res = await fetch("https://attendance-backend.onrender.com/api/attendance"
 
 const data = await res.json();
 
-if(data.length > 0){
+console.log("API DATA:", data);
+
+if(Array.isArray(data) && data.length > 0){
+
   const latest = data[data.length-1];
 
   let p=0,a=0;
@@ -31,6 +36,14 @@ if(data.length > 0){
 
   setPresent(p);
   setAbsent(a);
+
+}else{
+  setPresent(0);
+  setAbsent(0);
+}
+
+}catch(err){
+console.log("Error:", err);
 }
 
 };
@@ -39,9 +52,11 @@ useEffect(()=>{
 
 fetchData();
 
-const socket = io("https://attendance-backend.onrender.com");
+// ✅ SOCKET FIXED URL
+const socket = io("https://attendance-system-5w0n.onrender.com");
 
 socket.on("attendanceUpdated", ()=>{
+  console.log("Realtime update 🚀");
   fetchData();
 });
 
